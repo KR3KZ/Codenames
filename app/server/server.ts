@@ -6,4 +6,7 @@ export class Server {
   findRoomById(id: number) {
     return this.rooms.find((room) => room.id === id);
   }
+  findRoomByCode(code: string) {
+    return this.rooms.find((room) => room.code === code);
+  }
 }

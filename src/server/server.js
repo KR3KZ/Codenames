@@ -8,5 +8,8 @@ class Server {
     findRoomById(id) {
         return this.rooms.find((room) => room.id === id);
     }
+    findRoomByCode(code) {
+        return this.rooms.find((room) => room.code === code);
+    }
 }
 exports.Server = Server;
