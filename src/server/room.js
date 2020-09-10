@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Room = void 0;
 const team_1 = require("./team");
 class Room {
-    constructor(id) {
+    constructor(uuid) {
         this.teams = [];
         this.cards = [];
-        this.id = id;
+        this.uuid = uuid;
         this.code = this.makeCode(5);
         this.init();
     }

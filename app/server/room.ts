@@ -2,12 +2,13 @@ import { Team } from "./team";
 import { Card } from "./card";
 
 export class Room {
+  uuid: string;
   code: string;
-  id: number;
   teams: Array<Team> = [];
   cards: Array<Card> = [];
-  constructor(id: number) {
-    this.id = id;
+  static Room: any;
+  constructor(uuid: string) {
+    this.uuid = uuid;
     this.code = this.makeCode(5);
     this.init();
   }

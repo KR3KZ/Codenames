@@ -18,30 +18,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const body_parser_1 = __importDefault(require("body-parser"));
 const Server = __importStar(require("./server"));
-const Room = __importStar(require("./room"));
-const bodyParser = require("body-parser");
-const server = new Server.Server();
-let id = 0;
 // Create a new express app instance
 const app = express();
-//TODO, rappelle à illan que c'est un gros shlag - IMPORTANT
-app.use(express.json()); // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({ extended: true }));
+const server = new Server.Server();
+app.use(express.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.set("views", "app/views");
 app.set("view engine", "pug");
 app.get("/", function (req, res) {
     res.render("index", {
         title: "Bienvenue :)",
-        message: `TODO, rappelle à illan que c'est un gros shlag - IMPORTANT.`,
+        message: `${JSON.stringify(server.rooms)}`,
     });
 });
 app.get("/new", function (req, res) {
-    const room = newRoom();
-    id++;
-    res.send(`Game ${room.id} créée avec le code ${room.code}`);
+    const room = server.newRoom();
+    server.addRoom(room);
+    res.send(`Game ${room.uuid} created with code ${room.code}`);
 });
 app.get("/join", function (req, res) {
     res.render("join", { title: "Hey" });
@@ -50,18 +50,13 @@ app.post("/join", function (req, res) {
     var gameId = req.body.gameId;
     const room = server.findRoomByCode(gameId);
     if (room) {
-        res.send(`Game ${room.id} trouvée`);
+        res.send(`Game ${room.uuid} found with code ${room.code}`);
+        console.log(`Someone joined game ${room.uuid}`);
     }
     else {
-        res.send(`Game ${gameId} non trouvée`);
+        res.send(`Game ${gameId} not found`);
     }
 });
-function newRoom() {
-    const room = new Room.Room(id);
-    server.rooms.push(room);
-    console.log(`Room number ${room.id} created with code ${room.code}.`);
-    return room;
-}
 app.listen(3000, function () {
     console.log("App is listening on port 3000!");
 });
