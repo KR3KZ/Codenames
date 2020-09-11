@@ -22,7 +22,7 @@ app.get("/", function (req, res) {
 app.get("/new", function (req, res) {
   const room = server.newRoom();
   server.addRoom(room);
-  res.send(`Game ${room.uuid} created with code ${room.code}`);
+  res.send(`Room ${room.uuid} created with code ${room.code}`);
 });
 
 app.get("/join", function (req, res) {
@@ -30,13 +30,13 @@ app.get("/join", function (req, res) {
 });
 
 app.post("/join", function (req, res) {
-  var gameId = req.body.gameId;
-  const room = server.findRoomByCode(gameId);
+  var roomUuid = req.body.roomUuid;
+  const room = server.findRoomByCode(roomUuid);
   if (room) {
-    res.send(`Game ${room.uuid} found with code ${room.code}`);
-    console.log(`Someone joined game ${room.uuid}`);
+    res.send(`Room ${room.uuid} found with code ${room.code}`);
+    console.log(`Someone joined room ${room.uuid}`);
   } else {
-    res.send(`Game ${gameId} not found`);
+    res.send(`Room ${roomUuid} not found`);
   }
 });
 
