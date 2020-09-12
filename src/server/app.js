@@ -48,16 +48,27 @@ app.get("/new", function (req, res) {
     });
 });
 app.get("/join/:roomUuid", function (req, res) {
-    const room = server.joinRoom(req.params.roomUuid);
+    const room = server.checkIfRoomExist(req.params.roomUuid);
     if (room) {
         res.render("join", {
             title: `${title}`,
+            message: `Choisis ton équipe 😊`,
             link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
+            uuid: `${room.uuid}`,
         });
     }
     else {
         res.redirect("/");
     }
+});
+app.get("/game/*", function (req, res) {
+    res.send("");
+});
+app.post("/game*", function (req, res) {
+    if (req.body.teamBlue === "checked") {
+        console.log("j'existe fdp");
+    }
+    res.send("");
 });
 //Last route to redirect bad URL to home page
 app.get("*", function (req, res) {

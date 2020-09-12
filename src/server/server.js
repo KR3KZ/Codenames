@@ -20,7 +20,7 @@ class Server {
     addRoom(room) {
         this.rooms.push(room);
     }
-    joinRoom(roomUuid) {
+    checkIfRoomExist(roomUuid) {
         const room = this.findRoomByUuid(roomUuid);
         if (room) {
             return room;

@@ -8,6 +8,26 @@ html
 					a.masthead-brand.text-uppercase.display-4(href='/') Codenames
 			main.inner.cover(role='main')
 				p.lead.d-flex.justify-content-center
-					a.btn.btn-lg.btn-warning(href= link type='button').text-uppercase Rejoindre
+					a(href=link)= message
+				.cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+					ul#myTab.nav.nav-pills.nav-fill(role='tablist')
+						li.nav-item(role='presentation')
+							a.nav-link(data-toggle='tab' href='#blue' role='tab' aria-controls='blue' aria-selected='true') Team bleu
+						li#redTab.nav-item(role='presentation')
+							a.nav-link(data-toggle='tab' href='#red' role='tab' aria-controls='red' aria-selected='false') Team rouge
+					#myTabContent.tab-content.d-flex.justify-content-center
+						form.form(action='/game' method='post')
+							#blue.tab-pane.fade(role='tabpanel' aria-labelledby='blue-tab')
+								.form-check
+									label.form-check-label
+										input.form-check-input(name="teamBlue" type='checkbox' value='checked')
+										| Être chef de l'équipe bleu
+							#red.tab-pane.fade(role='tabpanel' aria-labelledby='red-tab')
+								.form-check
+									label.form-check-label
+										input.form-check-input(name="teamRed" type='checkbox' value='checked')
+										| Être chef de l'équipe rouge
+							lead.d-flex.justify-content-center
+								button.btn.btn-warning(type='submit') Rejoindre
 			include footer.pug
 		include js.pug

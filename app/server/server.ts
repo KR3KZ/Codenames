@@ -20,7 +20,7 @@ export class Server {
     this.rooms.push(room);
   }
 
-  joinRoom(roomUuid: string) {
+  checkIfRoomExist(roomUuid: string) {
     const room = this.findRoomByUuid(roomUuid);
     if (room) {
       return room;
