@@ -24,6 +24,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const body_parser_1 = __importDefault(require("body-parser"));
+const serve_favicon_1 = __importDefault(require("serve-favicon"));
+const path_1 = __importDefault(require("path"));
 const Server = __importStar(require("./server"));
 // Create a new express app instance
 const app = express();
@@ -31,6 +33,7 @@ const server = new Server.Server();
 app.use(express.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(serve_favicon_1.default(path_1.default.join("public", "img", "favicon.ico")));
 app.set("views", "app/views");
 app.set("view engine", "pug");
 const title = "Codenames";
@@ -66,7 +69,10 @@ app.get("/game/*", function (req, res) {
 });
 app.post("/game*", function (req, res) {
     if (req.body.teamBlue === "checked") {
-        console.log("j'existe fdp");
+        console.log("Team blue joined");
+    }
+    else if (req.body.teamRed === "checked") {
+        console.log("Team red joined");
     }
     res.send("");
 });

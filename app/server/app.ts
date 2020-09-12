@@ -1,5 +1,7 @@
 import express = require("express");
 import bodyParser from "body-parser";
+import favicon from "serve-favicon";
+import path from "path";
 import * as Server from "./server";
 
 // Create a new express app instance
@@ -9,6 +11,7 @@ const server = new Server.Server();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(favicon(path.join("public", "img", "favicon.ico")));
 
 app.set("views", "app/views");
 app.set("view engine", "pug");
@@ -50,7 +53,9 @@ app.get("/game/*", function (req, res) {
 
 app.post("/game*", function (req, res) {
   if (req.body.teamBlue === "checked") {
-    console.log("j'existe fdp");
+    console.log("Team blue joined");
+  } else if (req.body.teamRed === "checked") {
+    console.log("Team red joined");
   }
   res.send("");
 });

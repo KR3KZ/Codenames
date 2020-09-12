@@ -14,5 +14,6 @@ export class Room {
     const blueTeam = new Team("BLUE");
     const redTeam = new Team("RED");
     this.teams.push(blueTeam, redTeam);
+    //TODO GENERATE WORDS BY TEAM
   }
 }
