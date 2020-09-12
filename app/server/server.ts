@@ -14,11 +14,21 @@ export class Server {
   newRoom() {
     const id = uuidv4();
     const room = new Room(id);
+    this.addRoom(room);
     console.log(`Room ${room.uuid} created with code ${room.code}.`);
     return room;
   }
 
   addRoom(room: Room) {
     this.rooms.push(room);
+  }
+
+  joinRoom(roomCode: string) {
+    const room = this.findRoomByCode(roomCode);
+    if (room) {
+      return room;
+    } else {
+      return false;
+    }
   }
 }

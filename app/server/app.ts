@@ -8,6 +8,7 @@ const server = new Server.Server();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.set("views", "app/views");
 app.set("view engine", "pug");
@@ -21,22 +22,23 @@ app.get("/", function (req, res) {
 
 app.get("/new", function (req, res) {
   const room = server.newRoom();
-  server.addRoom(room);
-  res.send(`Room ${room.uuid} created with code ${room.code}`);
+  res.render("index", {
+    title: "Bienvenue :)",
+    message: `Room ${room.uuid} created with code ${room.code}`,
+  });
 });
 
 app.get("/join", function (req, res) {
   res.render("join", { title: "Hey" });
 });
 
-app.post("/join", function (req, res) {
-  var roomUuid = req.body.roomUuid;
-  const room = server.findRoomByCode(roomUuid);
+app.get("/join/:roomCode", function (req, res) {
+  const room = server.joinRoom(req.params.roomCode);
   if (room) {
-    res.send(`Room ${room.uuid} found with code ${room.code}`);
-    console.log(`Someone joined room ${room.uuid}`);
-  } else {
-    res.send(`Room ${roomUuid} not found`);
+    res.render("index", {
+      title: "Bienvenue :)",
+      message: `Room ${room.uuid} joined with code ${room.code}`,
+    });
   }
 });
 

@@ -1,5 +1,46 @@
 html
-  include head.pug
+  head
+    include head.pug
+    style.
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    link(rel='stylesheet' href='css/index.css')
   body
-    p= message
-    include footer.pug
+    .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+      header.masthead.mb-auto
+        .inner.d-flex.justify-content-center
+          masthead-brand.text-uppercase.display-4 Codenames
+      main.inner.cover(role='main')
+        p.lead.d-flex.justify-content-center
+          a.btn.btn-lg.btn-danger(href='#').text-uppercase Jouer
+        p.lead.d-flex.justify-content-center= message
+      footer.mastfoot.mt-auto
+        .inner.d-flex.justify-content-center
+          p
+            span by
+            span.font-weight-bold  3rK#9715
+    #exampleModalCenter.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalCenterTitle' aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLongTitle.modal-title Modal title
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            | ...
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
+
+    include js.pug

@@ -16,11 +16,21 @@ class Server {
     newRoom() {
         const id = uuid_1.v4();
         const room = new room_1.Room(id);
+        this.addRoom(room);
         console.log(`Room ${room.uuid} created with code ${room.code}.`);
         return room;
     }
     addRoom(room) {
         this.rooms.push(room);
+    }
+    joinRoom(roomCode) {
+        const room = this.findRoomByCode(roomCode);
+        if (room) {
+            return room;
+        }
+        else {
+            return false;
+        }
     }
 }
 exports.Server = Server;
