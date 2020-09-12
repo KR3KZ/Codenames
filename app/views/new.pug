@@ -8,6 +8,10 @@ html
 					a.masthead-brand.text-uppercase.display-4(href='/') Codenames
 			main.inner.cover(role='main')
 				p.lead.d-flex.justify-content-center
-					a.btn.btn-lg.btn-success(href='new' type='button').text-uppercase Créer une partie
+					a(href=link)= message
+				p.d-flex.justify-content-center
+					a(href=link)= link
+				p.lead.d-flex.justify-content-center
+					a.btn.btn-lg.btn-primary(href=link type='button').text-uppercase Go !
 			include footer.pug
 		include js.pug

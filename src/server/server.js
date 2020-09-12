@@ -7,24 +7,21 @@ class Server {
     constructor() {
         this.rooms = [];
     }
-    findRoomById(uuid) {
+    findRoomByUuid(uuid) {
         return this.rooms.find((room) => room.uuid === uuid);
-    }
-    findRoomByCode(code) {
-        return this.rooms.find((room) => room.code === code);
     }
     newRoom() {
         const id = uuid_1.v4();
         const room = new room_1.Room(id);
         this.addRoom(room);
-        console.log(`Room ${room.uuid} created with code ${room.code}.`);
+        console.log(`Room ${room.uuid} created with uuid ${room.uuid}.`);
         return room;
     }
     addRoom(room) {
         this.rooms.push(room);
     }
-    joinRoom(roomCode) {
-        const room = this.findRoomByCode(roomCode);
+    joinRoom(roomUuid) {
+        const room = this.findRoomByUuid(roomUuid);
         if (room) {
             return room;
         }

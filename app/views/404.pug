@@ -1,0 +1,12 @@
+html
+	head
+		include head.pug
+	body
+		.cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+			header.masthead.mb-auto
+				.inner.d-flex.justify-content-center
+					masthead-brand.text-uppercase.display-4 Codenames
+			main.inner.cover(role='main')
+				p.lead.d-flex.justify-content-center = message
+			include footer.pug
+		include js.pug

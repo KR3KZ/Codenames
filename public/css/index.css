@@ -1,7 +1,6 @@
 /*
  * Globals
  */
-
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -42,6 +41,7 @@ html,
 body {
   height: 100%;
   background-color: #333;
+  font-family: "Grandstander", cursive;
 }
 
 body {

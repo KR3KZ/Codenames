@@ -13,33 +13,38 @@ app.use(express.static("public"));
 app.set("views", "app/views");
 app.set("view engine", "pug");
 
+const title = "Codenames";
+
 app.get("/", function (req, res) {
   res.render("index", {
-    title: "Bienvenue :)",
-    message: `${JSON.stringify(server.rooms)}`,
+    title: `${title}`,
   });
 });
 
 app.get("/new", function (req, res) {
   const room = server.newRoom();
-  res.render("index", {
-    title: "Bienvenue :)",
-    message: `Room ${room.uuid} created with code ${room.code}`,
+  res.render("new", {
+    title: `${title}`,
+    message: `Copie le lien pour tes amis 🥰`,
+    link: `${req.protocol}://${req.get("host")}/join/${room.uuid}`,
   });
 });
 
-app.get("/join", function (req, res) {
-  res.render("join", { title: "Hey" });
+app.get("/join/:roomUuid", function (req, res) {
+  const room = server.joinRoom(req.params.roomUuid);
+  if (room) {
+    res.render("join", {
+      title: `${title}`,
+      link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
+    });
+  } else {
+    res.redirect("/");
+  }
 });
 
-app.get("/join/:roomCode", function (req, res) {
-  const room = server.joinRoom(req.params.roomCode);
-  if (room) {
-    res.render("index", {
-      title: "Bienvenue :)",
-      message: `Room ${room.uuid} joined with code ${room.code}`,
-    });
-  }
+//Last route to redirect bad URL to home page
+app.get("*", function (req, res) {
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
