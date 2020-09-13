@@ -47,8 +47,8 @@ app.get("/join/:roomUuid", function (req, res) {
   }
 });
 
-app.get("/game/*", function (req, res) {
-  res.send("");
+app.get("/game*", function (req, res) {
+  res.render("game");
 });
 
 app.post("/game*", function (req, res) {

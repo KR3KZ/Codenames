@@ -57,15 +57,15 @@ app.get("/join/:roomUuid", function (req, res) {
             title: `${title}`,
             message: `Choisis ton équipe 😊`,
             link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
-            uuid: `${room.uuid}`,
+            uuid: `game/${room.uuid}`,
         });
     }
     else {
         res.redirect("/");
     }
 });
-app.get("/game/*", function (req, res) {
-    res.send("");
+app.get("/game*", function (req, res) {
+    res.render("game");
 });
 app.post("/game*", function (req, res) {
     if (req.body.teamBlue === "checked") {

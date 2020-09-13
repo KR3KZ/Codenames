@@ -13,6 +13,7 @@ class Room {
         const blueTeam = new team_1.Team("BLUE");
         const redTeam = new team_1.Team("RED");
         this.teams.push(blueTeam, redTeam);
+        //TODO GENERATE WORDS BY TEAM
     }
 }
 exports.Room = Room;

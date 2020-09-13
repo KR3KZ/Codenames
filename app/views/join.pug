@@ -10,13 +10,13 @@ html
 				p.lead.d-flex.justify-content-center
 					a(href=link)= message
 				.cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
-					ul#myTab.nav.nav-pills.nav-fill(role='tablist')
-						li.nav-item(role='presentation')
-							a.nav-link(data-toggle='tab' href='#blue' role='tab' aria-controls='blue' aria-selected='true') Team bleu
-						li#redTab.nav-item(role='presentation')
-							a.nav-link(data-toggle='tab' href='#red' role='tab' aria-controls='red' aria-selected='false') Team rouge
-					#myTabContent.tab-content.d-flex.justify-content-center
-						form.form(action='/game' method='post')
+					form.form(action='/game' method='post')
+						ul#myTab.nav.nav-pills.nav-fill(role='tablist')
+							li.nav-item(role='presentation')
+								a#teamBlue.nav-link(data-toggle='tab' href='#blue' role='tab' aria-controls='blue' aria-selected='true') Team bleu
+							li#redTab.nav-item(role='presentation')
+								a#teamRed.nav-link(data-toggle='tab' href='#red' role='tab' aria-controls='red' aria-selected='false') Team rouge
+						#myTabContent.tab-content.d-flex.justify-content-center
 							#blue.tab-pane.fade(role='tabpanel' aria-labelledby='blue-tab')
 								.form-check
 									label.form-check-label
@@ -27,7 +27,7 @@ html
 									label.form-check-label
 										input.form-check-input(name="teamRed" type='checkbox' value='checked')
 										| Être chef de l'équipe rouge
-							lead.d-flex.justify-content-center
-								button.btn.btn-warning(type='submit') Rejoindre
+						lead.d-flex.justify-content-center
+							button.btn.btn-warning(type='submit') Rejoindre
 			include footer.pug
 		include js.pug
