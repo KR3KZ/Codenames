@@ -23,12 +23,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const http_1 = __importDefault(require("http"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const path_1 = __importDefault(require("path"));
 const Server = __importStar(require("./server"));
+const socket_io_1 = __importDefault(require("socket.io"));
 // Create a new express app instance
 const app = express();
+const http = http_1.default.createServer(app);
+const io = socket_io_1.default(http);
 const server = new Server.Server();
 app.use(express.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
@@ -57,7 +61,7 @@ app.get("/join/:roomUuid", function (req, res) {
             title: `${title}`,
             message: `Choisis ton équipe 😊`,
             link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
-            uuid: `game/${room.uuid}`,
+            uuid: `${room.uuid}`,
         });
     }
     else {
@@ -65,21 +69,30 @@ app.get("/join/:roomUuid", function (req, res) {
     }
 });
 app.get("/game*", function (req, res) {
-    res.render("game");
+    res.redirect("/");
 });
 app.post("/game*", function (req, res) {
+    const room = server.checkIfRoomExist(req.body.uuid);
+    if (room) {
+        res.render("game");
+    }
+    else {
+        res.redirect("/");
+    }
     if (req.body.teamBlue === "checked") {
         console.log("Team blue joined");
     }
     else if (req.body.teamRed === "checked") {
         console.log("Team red joined");
     }
-    res.send("");
+});
+io.on("connection", (socket) => {
+    console.log(`${socket.client.conn.remoteAddress}`);
 });
 //Last route to redirect bad URL to home page
 app.get("*", function (req, res) {
     res.redirect("/");
 });
-app.listen(3000, function () {
+http.listen(3000, function () {
     console.log("App is listening on port 3000!");
 });

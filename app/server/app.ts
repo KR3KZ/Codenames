@@ -1,11 +1,15 @@
 import express = require("express");
+import httpLib from "http";
 import bodyParser from "body-parser";
 import favicon from "serve-favicon";
 import path from "path";
 import * as Server from "./server";
+import ioLib from "socket.io";
 
 // Create a new express app instance
 const app: express.Application = express();
+const http = httpLib.createServer(app);
+const io = ioLib(http);
 const server = new Server.Server();
 
 app.use(express.json());
@@ -48,16 +52,26 @@ app.get("/join/:roomUuid", function (req, res) {
 });
 
 app.get("/game*", function (req, res) {
-  res.render("game");
+  res.redirect("/");
 });
 
 app.post("/game*", function (req, res) {
+  const room = server.checkIfRoomExist(req.body.uuid);
+  if (room) {
+    res.render("game");
+  } else {
+    res.redirect("/");
+  }
+
   if (req.body.teamBlue === "checked") {
     console.log("Team blue joined");
   } else if (req.body.teamRed === "checked") {
     console.log("Team red joined");
   }
-  res.send("");
+});
+
+io.on("connection", (socket) => {
+  console.log(`${socket.client.conn.remoteAddress}`);
 });
 
 //Last route to redirect bad URL to home page
@@ -65,6 +79,6 @@ app.get("*", function (req, res) {
   res.redirect("/");
 });
 
-app.listen(3000, function () {
+http.listen(3000, function () {
   console.log("App is listening on port 3000!");
 });

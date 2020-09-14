@@ -1,6 +1,7 @@
 html
 	head
 		include head.pug
+		script(src='/js/join.js')
 	body
 		.cover-container-fluid.d-flex.w-100.h-100.p-3.mx-auto.flex-column
 			header.masthead.mb-auto
@@ -11,23 +12,24 @@ html
 					a(href=link)= message
 				.cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
 					form.form(action='/game' method='post')
+						input(name="uuid" type='text' value= uuid).d-none
 						ul#myTab.nav.nav-pills.nav-fill(role='tablist')
 							li.nav-item(role='presentation')
-								a#teamBlue.nav-link(data-toggle='tab' href='#blue' role='tab' aria-controls='blue' aria-selected='true') Team bleu
+								a#teamBlue.nav-link(data-toggle='tab' href='#blue' role='tab' aria-controls='blue' aria-selected='true') Equipe bleue
 							li#redTab.nav-item(role='presentation')
-								a#teamRed.nav-link(data-toggle='tab' href='#red' role='tab' aria-controls='red' aria-selected='false') Team rouge
+								a#teamRed.nav-link(data-toggle='tab' href='#red' role='tab' aria-controls='red' aria-selected='false') Equipe rouge
 						#myTabContent.tab-content.d-flex.justify-content-center
 							#blue.tab-pane.fade(role='tabpanel' aria-labelledby='blue-tab')
 								.form-check
 									label.form-check-label
-										input.form-check-input(name="teamBlue" type='checkbox' value='checked')
-										| Être chef de l'équipe bleu
+										input#inputBlue.form-check-input(name="teamBlue" type='checkbox' value='checked' onclick="activeBtnBlue()")
+										| Être chef de l'équipe bleue
 							#red.tab-pane.fade(role='tabpanel' aria-labelledby='red-tab')
 								.form-check
 									label.form-check-label
-										input.form-check-input(name="teamRed" type='checkbox' value='checked')
+										input#inputRed.form-check-input(name="teamRed" type='checkbox' value='checked' onclick="activeBtnRed()")
 										| Être chef de l'équipe rouge
 						lead.d-flex.justify-content-center
-							button.btn.btn-warning(type='submit') Rejoindre
+							button#join.btn.btn-warning(type='submit') Rejoindre
 			include footer.pug
 		include js.pug
