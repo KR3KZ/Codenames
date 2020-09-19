@@ -10,10 +10,19 @@ class Room {
         this.init();
     }
     init() {
-        const blueTeam = new team_1.Team("BLUE");
-        const redTeam = new team_1.Team("RED");
-        this.teams.push(blueTeam, redTeam);
-        //TODO GENERATE WORDS BY TEAM
+        this.makeTeam();
+        this.makeCards();
     }
+    makeTeam() {
+        const blueTeam = new team_1.Team("BLUE");
+        blueTeam.setColor("#007bff");
+        const redTeam = new team_1.Team("RED");
+        redTeam.setColor("#cc2d2d");
+        const neutralTeam = new team_1.Team("NEUTRAL");
+        neutralTeam.setColor("#727477");
+        this.teams.push(blueTeam, redTeam, neutralTeam);
+    }
+    makeCards() { }
+    getWordList() { }
 }
 exports.Room = Room;

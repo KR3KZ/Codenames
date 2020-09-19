@@ -1,10 +1,18 @@
 import { Player } from "./player";
 
 export class Team {
-  color: string | undefined;
-  players: Array<Player> = [];
-  leader: Player | undefined;
-  constructor(color: string) {
-    this.color = color;
-  }
+	name: string;
+	color: string | undefined;
+	players: Array<Player> = [];
+	leader: Player | undefined;
+	constructor(name: string) {
+		this.name = name;
+	}
+
+	setName(name: string) {
+		this.name = name;
+	}
+	setColor(color: string) {
+		this.color = color;
+	}
 }

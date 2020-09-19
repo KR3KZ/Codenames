@@ -14,13 +14,13 @@ class Server {
         const id = uuid_1.v4();
         const room = new room_1.Room(id);
         this.addRoom(room);
-        console.log(`Room ${room.uuid} created with uuid ${room.uuid}.`);
+        console.log(`Room created with uuid ${room.uuid}.`);
         return room;
     }
     addRoom(room) {
         this.rooms.push(room);
     }
-    checkIfRoomExist(roomUuid) {
+    checkIfRoomExistWithUuid(roomUuid) {
         const room = this.findRoomByUuid(roomUuid);
         if (room) {
             return room;

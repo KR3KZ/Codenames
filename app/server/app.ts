@@ -5,6 +5,7 @@ import favicon from "serve-favicon";
 import path from "path";
 import * as Server from "./server";
 import ioLib from "socket.io";
+import { Socket } from "socket.io-client";
 
 // Create a new express app instance
 const app: express.Application = express();
@@ -23,62 +24,78 @@ app.set("view engine", "pug");
 const title = "Codenames";
 
 app.get("/", function (req, res) {
-  res.render("index", {
-    title: `${title}`,
-  });
+	res.render("index", {
+		title: `${title}`,
+	});
 });
 
 app.get("/new", function (req, res) {
-  const room = server.newRoom();
-  res.render("new", {
-    title: `${title}`,
-    message: `Copie le lien pour tes amis 🥰`,
-    link: `${req.protocol}://${req.get("host")}/join/${room.uuid}`,
-  });
+	const room = server.newRoom();
+	res.render("new", {
+		title: `${title}`,
+		message: `Copie le lien pour tes amis 🥰`,
+		link: `${req.protocol}://${req.get("host")}/join/${room.uuid}`,
+	});
 });
 
 app.get("/join/:roomUuid", function (req, res) {
-  const room = server.checkIfRoomExist(req.params.roomUuid);
-  if (room) {
-    res.render("join", {
-      title: `${title}`,
-      message: `Choisis ton équipe 😊`,
-      link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
-      uuid: `${room.uuid}`,
-    });
-  } else {
-    res.redirect("/");
-  }
+	const room = server.checkIfRoomExistWithUuid(req.params.roomUuid);
+	if (room) {
+		res.render("join", {
+			title: `${title}`,
+			message: `Choisis ton équipe 😊`,
+			link: `${req.protocol}://${req.get("host")}/game/${room.uuid}`,
+			uuid: `${room.uuid}`,
+		});
+	} else {
+		res.redirect("/");
+	}
 });
 
 app.get("/game*", function (req, res) {
-  res.redirect("/");
+	res.redirect("/");
 });
 
 app.post("/game*", function (req, res) {
-  const room = server.checkIfRoomExist(req.body.uuid);
-  if (room) {
-    res.render("game");
-  } else {
-    res.redirect("/");
-  }
-
-  if (req.body.teamBlue === "checked") {
-    console.log("Team blue joined");
-  } else if (req.body.teamRed === "checked") {
-    console.log("Team red joined");
-  }
+	const room = server.checkIfRoomExistWithUuid(req.body.uuid);
+	const blueTeamLeader = req.body.teamBlue === "checked" ? true : false;
+	const redTeamLeader = req.body.teamRed === "checked" ? true : false;
+	if (room) {
+		if (blueTeamLeader || redTeamLeader) {
+			//Send cards with colors
+		} else {
+			//Send cards with no colors
+			res.render("game", {
+				uuid: `${req.body.uuid}`,
+			});
+		}
+		io.to(`${req.body.uuid}`).emit("joined", "Someone joined the room");
+	} else {
+		res.redirect("/");
+	}
 });
 
 io.on("connection", (socket) => {
-  console.log(`${socket.client.conn.remoteAddress}`);
+	socket.on("message", (data) => {
+		console.log(`Received from client: ${data}`);
+	});
+
+	socket.on("uuid", (data) => {
+		const room = server.checkIfRoomExistWithUuid(data);
+		if (room) {
+			console.log(
+				`Socket.io.room ${data} joined by ${socket.conn.remoteAddress}`
+			);
+			socket.join(data);
+		}
+	});
 });
 
 //Last route to redirect bad URL to home page
 app.get("*", function (req, res) {
-  res.redirect("/");
+	res.redirect("/");
 });
 
 http.listen(3000, function () {
-  console.log("App is listening on port 3000!");
+	console.log("App is listening on port 3000!");
 });
